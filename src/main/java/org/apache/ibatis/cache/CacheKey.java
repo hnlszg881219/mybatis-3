@@ -29,6 +29,7 @@ public class CacheKey implements Cloneable, Serializable {
 
   private static final long serialVersionUID = 1146682552656046210L;
 
+  //空的缓存key,不能做任何操作
   public static final CacheKey NULL_CACHE_KEY = new CacheKey(){
     @Override
     public void update(Object object) {
@@ -40,12 +41,18 @@ public class CacheKey implements Cloneable, Serializable {
     }
   };
 
+  //默认的乘积因子
   private static final int DEFAULT_MULTIPLIER = 37;
+  //默认的hashcode
   private static final int DEFAULT_HASHCODE = 17;
 
+  //乘积因子
   private final int multiplier;
+
   private int hashcode;
+  //校验码
   private long checksum;
+  //更新次数
   private int count;
   // 8/21/2017 - Sonarlint flags this as needing to be marked transient.  While true if content is not serializable, this is not always true and thus should not be marked transient.
   private List<Object> updateList;
@@ -84,6 +91,7 @@ public class CacheKey implements Cloneable, Serializable {
     }
   }
 
+  //复写equals方法
   @Override
   public boolean equals(Object object) {
     if (this == object) {
@@ -115,11 +123,13 @@ public class CacheKey implements Cloneable, Serializable {
     return true;
   }
 
+  //复写hashcode方法
   @Override
   public int hashCode() {
     return hashcode;
   }
 
+  //复写toString方法
   @Override
   public String toString() {
     StringJoiner returnValue = new StringJoiner(":");
@@ -129,6 +139,7 @@ public class CacheKey implements Cloneable, Serializable {
     return returnValue.toString();
   }
 
+  //复写clone方法
   @Override
   public CacheKey clone() throws CloneNotSupportedException {
     CacheKey clonedCacheKey = (CacheKey) super.clone();

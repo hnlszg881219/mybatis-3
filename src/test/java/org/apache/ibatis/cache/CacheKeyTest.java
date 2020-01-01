@@ -90,6 +90,7 @@ class CacheKeyTest {
   @Test
   void serializationExceptionTest() {
     CacheKey cacheKey = new CacheKey();
+    //没有实现序列化接口
     cacheKey.update(new Object());
     Assertions.assertThrows(NotSerializableException.class, () -> {
       serialize(cacheKey);
@@ -98,12 +99,14 @@ class CacheKeyTest {
 
   @Test
   void serializationTest() throws Exception {
+    //CacheKey实现了序列化接口
     CacheKey cacheKey = new CacheKey();
     cacheKey.update("serializable");
     Assertions.assertEquals(cacheKey, serialize(cacheKey));
   }
 
   private static <T> T serialize(T object) throws Exception {
+      //需要被序列化和反序列化的类必须实现Serializable接口
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       new ObjectOutputStream(baos).writeObject(object);
 
