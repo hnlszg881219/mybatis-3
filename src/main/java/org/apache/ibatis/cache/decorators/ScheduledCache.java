@@ -82,6 +82,7 @@ public class ScheduledCache implements Cache {
     return delegate.equals(obj);
   }
 
+  //定时清空缓存的功能
   private boolean clearWhenStale() {
     if (System.currentTimeMillis() - lastClear > clearInterval) {
       clear();

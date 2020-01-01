@@ -35,6 +35,7 @@ import org.apache.ibatis.logging.LogFactory;
  * @author Clinton Begin
  * @author Eduardo Macarron
  */
+//事务缓存
 public class TransactionalCache implements Cache {
 
   private static final Log log = LogFactory.getLog(TransactionalCache.class);

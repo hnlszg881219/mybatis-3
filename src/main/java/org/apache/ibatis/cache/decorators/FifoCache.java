@@ -28,6 +28,7 @@ import org.apache.ibatis.cache.Cache;
 public class FifoCache implements Cache {
 
   private final Cache delegate;
+  //使用队列实现先进先出，最大长度为1024, 装饰器模式
   private final Deque<Object> keyList;
   private int size;
 
@@ -53,6 +54,7 @@ public class FifoCache implements Cache {
 
   @Override
   public void putObject(Object key, Object value) {
+    //每次放缓存时，先检查队列长度是否超过指定长度
     cycleKeyList(key);
     delegate.putObject(key, value);
   }
@@ -64,15 +66,18 @@ public class FifoCache implements Cache {
 
   @Override
   public Object removeObject(Object key) {
+    //队列中的元素没有移除, 两者数据不同步
     return delegate.removeObject(key);
   }
 
   @Override
   public void clear() {
+    //清除缓存及队列
     delegate.clear();
     keyList.clear();
   }
 
+  //限制缓存最大长度，移除最先进来的元素，当超过长度时
   private void cycleKeyList(Object key) {
     keyList.addLast(key);
     if (keyList.size() > size) {

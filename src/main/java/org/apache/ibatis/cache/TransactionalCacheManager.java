@@ -39,18 +39,21 @@ public class TransactionalCacheManager {
     getTransactionalCache(cache).putObject(key, value);
   }
 
+  //当事务提交时，将缓存数据提交
   public void commit() {
     for (TransactionalCache txCache : transactionalCaches.values()) {
       txCache.commit();
     }
   }
 
+  //当事务回滚时，将缓存数据回滚
   public void rollback() {
     for (TransactionalCache txCache : transactionalCaches.values()) {
       txCache.rollback();
     }
   }
 
+  //获取事务缓存
   private TransactionalCache getTransactionalCache(Cache cache) {
     return transactionalCaches.computeIfAbsent(cache, TransactionalCache::new);
   }

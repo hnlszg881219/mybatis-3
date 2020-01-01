@@ -33,6 +33,7 @@ public class LruCache implements Cache {
 
   public LruCache(Cache delegate) {
     this.delegate = delegate;
+    //使用LinkedHashMap,实现最近最小使用功能策略
     setSize(1024);
   }
 
@@ -47,6 +48,7 @@ public class LruCache implements Cache {
   }
 
   public void setSize(final int size) {
+    //accessOrder=true,当访问命中时，可以将命中的节点移到最后
     keyMap = new LinkedHashMap<Object, Object>(size, .75F, true) {
       private static final long serialVersionUID = 4267176411845948333L;
 
@@ -85,7 +87,9 @@ public class LruCache implements Cache {
   }
 
   private void cycleKeyList(Object key) {
+    //放入新数据
     keyMap.put(key, key);
+    //如果长度超了，将从缓存中移除
     if (eldestKey != null) {
       delegate.removeObject(eldestKey);
       eldestKey = null;

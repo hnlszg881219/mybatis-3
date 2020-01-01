@@ -28,6 +28,7 @@ import org.apache.ibatis.cache.Cache;
  *
  * @author Clinton Begin
  */
+//使用弱应用处理缓存，配合引用队列
 public class WeakCache implements Cache {
   private final Deque<Object> hardLinksToAvoidGarbageCollection;
   private final ReferenceQueue<Object> queueOfGarbageCollectedEntries;
